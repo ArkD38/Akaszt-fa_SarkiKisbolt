@@ -1,13 +1,15 @@
-
 // variables for game logic
 
-let words = ["mikorleszdndbucsi", "carpetustakaranép", "kajamárnagyonéhes", "whyudodis", "ez", "még", "mindig", "nem", "tíz", "szó", "tavasziszünet"];
+let words = ["mikorleszdndbucsi", "könyv", "alma", "kertész", "ceruza", "liba", "metró", "kávé", "kémia", "szó", "tavasziszünet"];
 let random = Math.floor(Math.random() * (words.length)); 
 let megoldas = words[random];
 let megoldnyilv = "";
 let hibak = 0;
 let hibalista = []
 let ill = document.getElementById("illusztracio");
+let feladva = document.getElementById("feladv");
+let hibakelem = document.getElementById("hibak");
+let hibalistaelem = document.getElementById("hibalista");
 
 //variables for timer
 
@@ -39,20 +41,21 @@ function stopTimer(){
 
 //-------------Game logic-------------
 
-
-for(let i = 0; i < megoldas.length; i++) {
-  megoldnyilv += "#";
+function feladvanyGenerator(){
+  for(let i = 0; i < megoldas.length; i++) {
+    megoldnyilv += "#";
+  }
+  feladva.innerHTML = "A feladvány: " + megoldnyilv
 }
-let feladva = document.getElementById("feladv") 
-feladva.innerHTML = "A feladvány: " + megoldnyilv
 
-function Tipp(char){
+function Tipp(){
   if(hibalista.indexOf(document.getElementById("megoldas").value) != -1){
     alert("Ezt már egyszer tippelted és akkor sem volt jó! :c")
   } else {
     if(document.getElementById("megoldas").value.length == 1){
       let van = false
       let kar = document.getElementById("megoldas").value;
+      console.log(megoldas) //ezt ki kéne majd törölni tho
       for(let i = 0; i < megoldas.length;i++) {
         if(kar == megoldas[i]){
           megoldnyilv = megoldnyilv.substring(0,i) + kar + megoldnyilv.substring(i+1,megoldas.length)
@@ -64,10 +67,8 @@ function Tipp(char){
         if(!van){
         alert("Ez a karakter nem szerepel a szóban!")
         hibalista.push(document.getElementById("megoldas").value)
-        let hibalistaelem = document.getElementById("hibalista") 
         hibalistaelem.innerHTML += hibalista[hibak] + ", "
         hibak++
-        let hibakelem = document.getElementById("hibak") 
         hibakelem.innerHTML = "Hibás tippek száma: " + hibak
         if(hibak==11){
           alert("Vesztettél! :(")
@@ -79,6 +80,7 @@ function Tipp(char){
       if(megoldas == megoldnyilv){
             alert("Győztél!")
             stopTimer()
+            document.getElementById("kuldes").disabled = true;
       }
     }
     else {
@@ -86,3 +88,22 @@ function Tipp(char){
     }
   }
 }
+
+function newGame(){
+  random = Math.floor(Math.random() * (words.length)); 
+  megoldas = words[random];
+  megoldnyilv = "";
+  hibak = 0;
+  hibakelem.innerHTML = "Hibás tippek száma: " + hibak
+  hibalista = []
+  hibalistaelem.innerHTML = "Hibás betűk: "
+  totalSeconds = 0;
+  feladvanyGenerator();
+  setTime();
+  document.getElementById("kuldes").disabled = false;
+  ill.src = "src/af0.png"
+}
+
+//----------működés és annak hiánya-----------
+
+feladvanyGenerator();
