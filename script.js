@@ -1,10 +1,43 @@
 
+// variables for game logic
+
 let words = ["mikorleszdndbucsi", "carpetustakaranép", "kajamárnagyonéhes", "whyudodis", "ez", "még", "mindig", "nem", "tíz", "szó", "tavasziszünet"];
 let random = Math.floor(Math.random() * (words.length)); 
 let megoldas = words[random];
 let megoldnyilv = "";
 let hibak = 0;
 let hibalista = []
+
+//variables for timer
+
+let minutesLabel = document.getElementById("minutes");
+let secondsLabel = document.getElementById("seconds");
+let totalSeconds = 0;
+let interv = setInterval(setTime, 1000);
+
+//------------Timer---------------
+
+function setTime() {
+  ++totalSeconds;
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
+
+function stopTimer(){
+  clearInterval(interv);
+}
+
+//-------------Game logic-------------
+
 
 for(let i = 0; i < megoldas.length; i++) {
   megoldnyilv += "_";
@@ -38,10 +71,13 @@ function Tipp(char){
         if(hibak==11){
           alert("Vesztettél! :(")
           document.getElementById("kuldes").disabled = true;
+          stopTimer()
+          
         }
       }
       if(megoldas == megoldnyilv){
             alert("Győztél!")
+            stopTimer()
       }
     
     }
