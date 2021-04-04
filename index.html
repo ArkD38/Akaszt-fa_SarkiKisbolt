@@ -11,7 +11,7 @@
    
     <form>
        <input type="text" id="megoldas" maxlength="1" value="">
-       <input type="button" id="kuldes" value="Küldés" onClick="Tipp()"> 
+       <input type="button" id="kuldes" value="Küldés" onclick="Tipp()"> 
     </form>
     <label id="minutes">00</label>:<label id="seconds">00</label>
     <p id="feladv">A feladvány: </p>
@@ -20,7 +20,10 @@
 
     <img id="illusztracio" src="src/af0.png" alt="Illusztráció a játékhoz">
 
-    <input type="button" id="ujra" value="Még egy!" onClick="newGame()">
+    <input type="button" id="ujra" value="Még egy!" onclick="newGame()">
+    <input type="button" id="muti" value="Muti a toplistát!" onclick="showTopList()">
+
+    <ol></ol>
    
     <script src="script.js"></script>
   </body>

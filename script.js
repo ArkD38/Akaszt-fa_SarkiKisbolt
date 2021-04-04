@@ -10,6 +10,9 @@ let ill = document.getElementById("illusztracio");
 let feladva = document.getElementById("feladv");
 let hibakelem = document.getElementById("hibak");
 let hibalistaelem = document.getElementById("hibalista");
+let toplista = document.querySelector("ol")
+
+let playerName = ""
 
 //variables for timer
 
@@ -78,9 +81,10 @@ function Tipp(){
         ill.src = "src/af" + hibak + ".png"
       }
       if(megoldas == megoldnyilv){
-            alert("Győztél!")
-            stopTimer()
-            document.getElementById("kuldes").disabled = true;
+        alert("Győztél!")
+        stopTimer()
+        topList()
+        document.getElementById("kuldes").disabled = true;
       }
     }
     else {
@@ -89,7 +93,46 @@ function Tipp(){
   }
 }
 
+function compareResults(list1, list2){
+  if(list1[1]>list2[1]){
+    return 1
+  }
+  else if(list1[1]<list2[1]){
+    return -1
+  }
+  else{
+    return 0
+  }
+}
+
+function topList(){
+  playerName = prompt("Add meg a neved!")
+  if(localStorage.getItem("Toplista") === null){
+    let eredmenyek = [[playerName, totalSeconds]]
+    localStorage.setItem("Toplista", JSON.stringify(eredmenyek))
+  }
+  else{
+    let eredmenyek = JSON.parse(localStorage.getItem("Toplista"))
+    eredmenyek.push([playerName, totalSeconds])
+    console.log(eredmenyek)
+    eredmenyek.sort(compareResults)
+    console.log(eredmenyek)
+    localStorage.setItem("Toplista", JSON.stringify(eredmenyek))
+  }
+}
+
+function showTopList(){
+  let eredmenyek = JSON.parse(localStorage.getItem("Toplista"))
+  eredmenyek.forEach(elem => {
+    let output = elem[0] + ", " + elem[1] + " mp"
+    let listitem = document.createElement("li")
+    listitem.innerHTML = output
+    toplista.appendChild(listitem)
+  })
+}
+
 function newGame(){
+  stopTimer()
   random = Math.floor(Math.random() * (words.length)); 
   megoldas = words[random];
   megoldnyilv = "";
@@ -99,6 +142,7 @@ function newGame(){
   hibalistaelem.innerHTML = "Hibás betűk: "
   totalSeconds = 0;
   feladvanyGenerator();
+  interv = setInterval(setTime, 1000)
   setTime();
   document.getElementById("kuldes").disabled = false;
   ill.src = "src/af0.png"
