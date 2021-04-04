@@ -7,6 +7,7 @@ let megoldas = words[random];
 let megoldnyilv = "";
 let hibak = 0;
 let hibalista = []
+let ill = document.getElementById("illusztracio");
 
 //variables for timer
 
@@ -72,8 +73,8 @@ function Tipp(char){
           alert("Vesztettél! :(")
           document.getElementById("kuldes").disabled = true;
           stopTimer()
-          
         }
+        ill.src = "src/af" + hibak + ".png"
       }
       if(megoldas == megoldnyilv){
             alert("Győztél!")
