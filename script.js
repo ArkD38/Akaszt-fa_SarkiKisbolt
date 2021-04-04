@@ -40,7 +40,7 @@ function stopTimer(){
 
 
 for(let i = 0; i < megoldas.length; i++) {
-  megoldnyilv += "_";
+  megoldnyilv += "#";
 }
 let feladva = document.getElementById("feladv") 
 feladva.innerHTML = "A feladvány: " + megoldnyilv
@@ -79,7 +79,6 @@ function Tipp(char){
             alert("Győztél!")
             stopTimer()
       }
-    
     }
     else {
       alert("Írj be valamit!")
